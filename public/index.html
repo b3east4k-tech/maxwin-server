@@ -2,118 +2,235 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Maxwin Casino Demo</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Maxwin Casino</title>
 <style>
 body {
-  background: #121212;
-  font-family: 'Arial', sans-serif;
-  color: #fff;
-  text-align: center;
-  margin:0;
-  padding:0;
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(#0b0b0b, #1e1e1e);
+    color: #fff;
+    overflow-x: hidden;
 }
+
+/* Header */
 header {
-  background: linear-gradient(90deg, #ff0055, #ff9900);
-  padding: 20px 0;
-  font-size: 2em;
-  font-weight: bold;
-  letter-spacing: 2px;
-  color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px;
+    background: #111;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.7);
 }
-.container {
-  max-width: 500px;
-  margin: 50px auto;
-  background: #1f1f1f;
-  border-radius: 15px;
-  padding: 20px;
-  box-shadow: 0 0 20px #ff0055;
+header h1 {
+    font-size: 28px;
+    color: #ffcc00;
+    text-shadow: 0 0 10px #ffcc00;
 }
-input, button {
-  padding: 10px 15px;
-  margin: 10px 5px;
-  border-radius: 10px;
-  border: none;
-  font-size: 16px;
-  outline: none;
+.buttons {
+    display: flex;
+    gap: 15px;
 }
-input {
-  width: 60%;
+.buttons button {
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+    background: #ff6600;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+    text-shadow: 0 0 5px #000;
 }
-button {
-  background: linear-gradient(90deg,#ff0055,#ff9900);
-  color: #fff;
-  cursor: pointer;
-  transition: 0.2s;
+.buttons button:hover {
+    background: #ff9900;
+    box-shadow: 0 0 15px #ffcc00;
 }
-button:hover {
-  transform: scale(1.05);
+
+/* Banner */
+.banner {
+    width: 100%;
+    height: 250px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 48px;
+    font-weight: bold;
+    color: #ffcc00;
+    text-shadow: 0 0 15px #ffcc00;
+    background: url('https://images.unsplash.com/photo-1581093588401-3e0c0460f2b4') center/cover no-repeat;
+    animation: pulse 3s infinite alternate;
 }
-h2 {
-  margin-top: 20px;
-  font-size: 1.5em;
-  color: #00ffcc;
+@keyframes pulse {
+    0% { transform: scale(1); }
+    100% { transform: scale(1.02); }
+}
+
+/* Balance */
+.balance {
+    margin: 20px auto;
+    font-size: 28px;
+    text-align: center;
+    color: #00ff99;
+    text-shadow: 0 0 12px #00ff99;
+    transition: 0.3s;
+}
+
+/* Slot machine */
+.slot-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 40px auto;
+    gap: 20px;
 }
 .slot {
-  font-size: 50px;
-  margin: 20px 0;
+    width: 80px;
+    height: 80px;
+    font-size: 48px;
+    background: #222;
+    border: 2px solid #ffcc00;
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-shadow: 0 0 5px #ffcc00;
+    transition: 0.3s;
+}
+.spin-button {
+    display: block;
+    margin: 0 auto;
+    padding: 15px 40px;
+    font-size: 20px;
+    background: linear-gradient(90deg,#ff3300,#ff6600);
+    border: none;
+    border-radius: 10px;
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+    text-shadow: 0 0 5px #000;
+}
+.spin-button:hover {
+    background: linear-gradient(90deg,#ff6600,#ffcc00);
+    box-shadow: 0 0 20px #ffcc00;
+}
+
+/* Footer */
+footer {
+    margin-top: 50px;
+    padding: 20px;
+    text-align: center;
+    font-size: 14px;
+    color: #888;
+    background: #111;
 }
 </style>
 </head>
 <body>
 
-<header>?? MAXWIN DEMO CASINO</header>
+<header>
+    <h1>Maxwin Casino</h1>
+    <div class="buttons">
+        <button id="register-btn">Register</button>
+        <button id="login-btn">Login</button>
+    </div>
+</header>
 
-<div class="container">
-  <input id="username" placeholder="Enter username">
-  <button onclick="register()">Register</button>
-  <button onclick="login()">Login</button>
+<div class="banner">?? MAXWIN ??</div>
 
-  <h2>Balance: <span id="balance">0</span> coins</h2>
+<div class="balance">Balance: <span id="balance">0</span> coins</div>
 
-  <div class="slot" id="slot">?? ?? ??</div>
-  <button onclick="spin()">SPIN</button>
+<div class="slot-container">
+    <div class="slot" id="slot1">??</div>
+    <div class="slot" id="slot2">??</div>
+    <div class="slot" id="slot3">?</div>
 </div>
 
+<button class="spin-button" id="spin-btn">SPIN</button>
+
+<footer>
+    © 2026 Maxwin Casino. All rights reserved.
+</footer>
+
 <script>
+const SERVER = "https://maxwin-server.onrender.com"; // твоя ссылка Render
 let username = "";
-const SERVER = "https://maxwin-server.onrender.com"; // <- сюда вставь свой адрес Render
+let balanceEl = document.getElementById("balance");
 
-async function register() {
-    username = document.getElementById("username").value;
-    const res = await fetch(SERVER + "/register", {
-        method:"POST",
-        headers:{"Content-Type":"application/json"},
-        body:JSON.stringify({username})
-    });
-    const data = await res.json();
-    alert(JSON.stringify(data));
-    if(data.balance) document.getElementById("balance").innerText = data.balance;
+const slotEls = [
+    document.getElementById("slot1"),
+    document.getElementById("slot2"),
+    document.getElementById("slot3")
+];
+
+const symbols = ["??","??","?","7??"];
+
+function updateBalance(bal){
+    balanceEl.textContent = bal;
+    balanceEl.style.transform = "scale(1.2)";
+    setTimeout(()=>balanceEl.style.transform="scale(1)",200);
 }
 
-async function login() {
-    username = document.getElementById("username").value;
-    const res = await fetch(SERVER + "/login", {
+function register(){
+    username = prompt("Enter username to register:");
+    if(!username) return;
+    fetch(`${SERVER}/register`, {
         method:"POST",
-        headers:{"Content-Type":"application/json"},
-        body:JSON.stringify({username})
+        headers: {"Content-Type":"application/json"},
+        body: JSON.stringify({username})
+    })
+    .then(res=>res.json())
+    .then(data=>{
+        if(data.error) alert(data.error);
+        else updateBalance(data.balance);
     });
-    const data = await res.json();
-    alert(JSON.stringify(data));
-    if(data.balance) document.getElementById("balance").innerText = data.balance;
 }
 
-async function spin() {
-    const res = await fetch(SERVER + "/spin", {
+function login(){
+    username = prompt("Enter username to login:");
+    if(!username) return;
+    fetch(`${SERVER}/login`, {
         method:"POST",
-        headers:{"Content-Type":"application/json"},
-        body:JSON.stringify({username})
+        headers: {"Content-Type":"application/json"},
+        body: JSON.stringify({username})
+    })
+    .then(res=>res.json())
+    .then(data=>{
+        if(data.error) alert(data.error);
+        else updateBalance(data.balance);
     });
-    const data = await res.json();
-    if(data.error){alert(data.error); return;}
-    document.getElementById("slot").innerText = data.result.join(" ");
-    document.getElementById("balance").innerText = data.balance;
-    if(data.win>0) alert("?? WIN +" + data.win);
 }
+
+function spin(){
+    if(!username) { alert("Login first"); return; }
+    fetch(`${SERVER}/spin`, {
+        method:"POST",
+        headers: {"Content-Type":"application/json"},
+        body: JSON.stringify({username})
+    })
+    .then(res=>res.json())
+    .then(data=>{
+        if(data.error) alert(data.error);
+        else{
+            // анимация вращения
+            slotEls.forEach((el,i)=>{
+                let count=0;
+                const interval = setInterval(()=>{
+                    el.textContent = symbols[Math.floor(Math.random()*symbols.length)];
+                    count++;
+                    if(count>10+i*5) clearInterval(interval);
+                },50);
+            });
+            setTimeout(()=>updateBalance(data.balance), 600);
+        }
+    });
+}
+
+document.getElementById("register-btn").onclick = register;
+document.getElementById("login-btn").onclick = login;
+document.getElementById("spin-btn").onclick = spin;
 </script>
 
 </body>
