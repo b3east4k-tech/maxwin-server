@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Maxwin Casino Demo</title>
+<style>
+body {
+  background: #121212;
+  font-family: 'Arial', sans-serif;
+  color: #fff;
+  text-align: center;
+  margin:0;
+  padding:0;
+}
+header {
+  background: linear-gradient(90deg, #ff0055, #ff9900);
+  padding: 20px 0;
+  font-size: 2em;
+  font-weight: bold;
+  letter-spacing: 2px;
+  color: #fff;
+}
+.container {
+  max-width: 500px;
+  margin: 50px auto;
+  background: #1f1f1f;
+  border-radius: 15px;
+  padding: 20px;
+  box-shadow: 0 0 20px #ff0055;
+}
+input, button {
+  padding: 10px 15px;
+  margin: 10px 5px;
+  border-radius: 10px;
+  border: none;
+  font-size: 16px;
+  outline: none;
+}
+input {
+  width: 60%;
+}
+button {
+  background: linear-gradient(90deg,#ff0055,#ff9900);
+  color: #fff;
+  cursor: pointer;
+  transition: 0.2s;
+}
+button:hover {
+  transform: scale(1.05);
+}
+h2 {
+  margin-top: 20px;
+  font-size: 1.5em;
+  color: #00ffcc;
+}
+.slot {
+  font-size: 50px;
+  margin: 20px 0;
+}
+</style>
+</head>
+<body>
+
+<header>?? MAXWIN DEMO CASINO</header>
+
+<div class="container">
+  <input id="username" placeholder="Enter username">
+  <button onclick="register()">Register</button>
+  <button onclick="login()">Login</button>
+
+  <h2>Balance: <span id="balance">0</span> coins</h2>
+
+  <div class="slot" id="slot">?? ?? ??</div>
+  <button onclick="spin()">SPIN</button>
+</div>
+
+<script>
+let username = "";
+const SERVER = "https://maxwin-server.onrender.com"; // <- сюда вставь свой адрес Render
+
+async function register() {
+    username = document.getElementById("username").value;
+    const res = await fetch(SERVER + "/register", {
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({username})
+    });
+    const data = await res.json();
+    alert(JSON.stringify(data));
+    if(data.balance) document.getElementById("balance").innerText = data.balance;
+}
+
+async function login() {
+    username = document.getElementById("username").value;
+    const res = await fetch(SERVER + "/login", {
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({username})
+    });
+    const data = await res.json();
+    alert(JSON.stringify(data));
+    if(data.balance) document.getElementById("balance").innerText = data.balance;
+}
+
+async function spin() {
+    const res = await fetch(SERVER + "/spin", {
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({username})
+    });
+    const data = await res.json();
+    if(data.error){alert(data.error); return;}
+    document.getElementById("slot").innerText = data.result.join(" ");
+    document.getElementById("balance").innerText = data.balance;
+    if(data.win>0) alert("?? WIN +" + data.win);
+}
+</script>
+
+</body>
+</html>
