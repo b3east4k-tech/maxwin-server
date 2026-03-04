@@ -3,99 +3,54 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Maxwin Casino</title>
+<title>MaxWin</title>
 <link rel="stylesheet" href="style.css">
 </head>
-<div id="authModal" class="modal hidden">
-  <div class="modal-box">
-    
-    <div class="tabs">
-      <button id="loginTab" class="active">Login</button>
-      <button id="registerTab">Register</button>
-    </div>
-
-    <div id="errorBox" class="error hidden"></div>
-
-    <form id="authForm">
-      <input type="text" id="username" placeholder="Username" required>
-      <input type="email" id="email" placeholder="Email (register only)" class="register-only hidden">
-      <input type="password" id="password" placeholder="Password" required>
-      <input type="password" id="confirmPassword" placeholder="Confirm Password" class="register-only hidden">
-
-      <select id="currency" class="register-only hidden">
-        <option value="USD">USD</option>
-        <option value="EUR">EUR</option>
-        <option value="PLN">PLN</option>
-      </select>
-
-      <select id="language" class="register-only hidden">
-        <option value="EN">English</option>
-        <option value="PL">Polski</option>
-        <option value="RU">Русский</option>
-      </select>
-
-      <button type="submit" id="submitBtn">Login</button>
-    </form>
-
-  </div>
-</div>
 <body>
 
-<header>
-    <h1>Maxwin Casino</h1>
-    <div class="buttons">
-        <button id="register-btn">Register</button>
-        <button id="login-btn">Login</button>
-    </div>
+<header class="header">
+  <div class="logo">MAXWIN</div>
+  <div class="header-right">
+    <div class="balance">Balance: <span id="balance">0</span></div>
+    <button class="btn login-btn">Login</button>
+    <button class="btn register-btn">Register</button>
+  </div>
 </header>
 
-<div class="banner">?? MAXWIN ??</div>
+<div class="layout">
 
-<div class="balance">Balance: <span id="balance">0</span> coins</div>
+  <aside class="sidebar">
+    <ul>
+      <li class="active">?? Slots</li>
+      <li>?? Crash</li>
+      <li>?? Roulette</li>
+      <li>?? Blackjack</li>
+      <li>?? VIP</li>
+    </ul>
+  </aside>
 
-<!-- Game Tabs -->
-<div class="tabs">
-    <button class="tab-btn" data-game="slot">Slot</button>
-    <button class="tab-btn" data-game="roulette">Roulette</button>
-</div>
+  <main class="main">
 
-<div id="game-area">
-    <canvas id="slot-canvas" width="500" height="200"></canvas>
-    <canvas id="roulette-canvas" width="500" height="250"></canvas>
-</div>
-
-<!-- Spin / Bet Buttons -->
-<div id="controls">
-    <button id="spin-btn">Spin / Play</button>
-    <input type="number" id="bet-input" placeholder="Bet" min="1">
-</div>
-
-<footer>
-    © 2026 Maxwin Casino. All rights reserved.
-</footer>
-
-<!-- Modal -->
-<div class="modal-bg" id="modal-bg">
-    <div class="modal" id="modal">
-        <h2 id="modal-title">Register</h2>
-        <input type="text" id="username" placeholder="Username">
-        <input type="password" id="password" placeholder="Password">
-        <select id="currency">
-            <option value="USD">USD</option>
-            <option value="EUR">EUR</option>
-            <option value="Coins">Coins</option>
-        </select>
-        <select id="language">
-            <option value="EN">English</option>
-            <option value="RU">Russian</option>
-        </select>
-        <button id="modal-submit">Submit</button>
-        <button id="modal-close" style="margin-top:5px;background:#333;">Close</button>
+    <div class="banner">
+      <h1>WELCOME TO MAXWIN</h1>
+      <p>Play. Win. Repeat.</p>
     </div>
+
+    <h2 class="section-title">Popular Games</h2>
+
+    <div class="games-grid">
+      <div class="game-card">Slot 1</div>
+      <div class="game-card">Slot 2</div>
+      <div class="game-card">Slot 3</div>
+      <div class="game-card">Slot 4</div>
+      <div class="game-card">Slot 5</div>
+      <div class="game-card">Slot 6</div>
+    </div>
+
+  </main>
+
 </div>
 
-<script src="games/slot.js"></script>
-<script src="games/roulette.js"></script>
 <script src="main.js"></script>
 </body>
 </html>
