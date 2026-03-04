@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MaxWin</title>
+<title>MaxWin Casino</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -11,9 +11,9 @@
 <header class="header">
   <div class="logo">MAXWIN</div>
   <div class="header-right">
-    <div class="balance">Balance: <span id="balance">0</span></div>
-    <button class="btn login-btn">Login</button>
-    <button class="btn register-btn">Register</button>
+    <div id="userInfo">Guest</div>
+    <button class="btn" id="loginTab">Login</button>
+    <button class="btn" id="registerTab">Register</button>
   </div>
 </header>
 
@@ -22,7 +22,7 @@
   <aside class="sidebar">
     <ul>
       <li class="active">?? Slots</li>
-      <li>?? Crash</li>
+      <li>?? Turbo Mines</li>
       <li>?? Roulette</li>
       <li>?? Blackjack</li>
       <li>?? VIP</li>
@@ -30,25 +30,46 @@
   </aside>
 
   <main class="main">
-
     <div class="banner">
       <h1>WELCOME TO MAXWIN</h1>
       <p>Play. Win. Repeat.</p>
     </div>
 
-    <h2 class="section-title">Popular Games</h2>
-
-    <div class="games-grid">
-      <div class="game-card">Slot 1</div>
-      <div class="game-card">Slot 2</div>
-      <div class="game-card">Slot 3</div>
-      <div class="game-card">Slot 4</div>
-      <div class="game-card">Slot 5</div>
-      <div class="game-card">Slot 6</div>
+    <div id="gameArea">
+      <h2>Turbo Mines</h2>
+      <button id="startGame">Start Game</button>
+      <div id="minesField"></div>
+      <div id="winInfo"></div>
     </div>
 
   </main>
 
+</div>
+
+<!-- Модалки -->
+<div class="modal hidden" id="authModal">
+  <div class="modal-content">
+    <span class="close" id="modalClose">&times;</span>
+    <h2 id="modalTitle">Login</h2>
+    <div id="errorBox" class="hidden"></div>
+    <form id="authForm">
+      <input type="text" placeholder="Username" id="username" required>
+      <input type="password" placeholder="Password" id="password" required>
+      <div class="register-only hidden">
+        <input type="password" placeholder="Confirm Password" id="confirmPassword">
+        <input type="email" placeholder="Email" id="email">
+        <select id="currency">
+          <option value="USD">USD</option>
+          <option value="EUR">EUR</option>
+        </select>
+        <select id="language">
+          <option value="en">English</option>
+          <option value="ru">Русский</option>
+        </select>
+      </div>
+      <button type="submit" id="submitBtn">Login</button>
+    </form>
+  </div>
 </div>
 
 <script src="main.js"></script>

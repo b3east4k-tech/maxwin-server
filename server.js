@@ -1,51 +1,84 @@
 const express = require("express");
 const cors = require("cors");
+const fs = require("fs");
+const { v4: uuidv4 } = require("uuid");
 
 const app = express();
+const PORT = process.env.PORT || 3000;
+
 app.use(cors());
 app.use(express.json());
-
-// отдаём фронтенд
 app.use(express.static("public"));
 
-let users = {};
+// Загрузка пользователей из JSON
+let users = [];
+const dbFile = "users.json";
+if (fs.existsSync(dbFile)) {
+  users = JSON.parse(fs.readFileSync(dbFile));
+}
+
+// Сохранение в JSON
+function saveUsers() {
+  fs.writeFileSync(dbFile, JSON.stringify(users, null, 2));
+}
 
 // Регистрация
 app.post("/register", (req, res) => {
-    const { username } = req.body;
-    if (!username) return res.json({ error: "No username" });
-    if (users[username]) return res.json({ error: "User already exists" });
-    users[username] = { balance: 100 };
-    res.json({ success: true, balance: 100 });
+  const { username, password, email, currency, language } = req.body;
+  if (users.find(u => u.username === username)) {
+    return res.json({ success: false, message: "Username taken" });
+  }
+  const id = uuidv4();
+  const newUser = { id, username, password, email, currency, language, balance: 0 };
+  users.push(newUser);
+  saveUsers();
+  res.json({ success: true, user: newUser });
 });
 
-// Логин
+// Вход
 app.post("/login", (req, res) => {
-    const { username } = req.body;
-    if (!users[username]) return res.json({ error: "User not found" });
-    res.json({ success: true, balance: users[username].balance });
+  const { username, password } = req.body;
+  const user = users.find(u => u.username === username && u.password === password);
+  if (!user) return res.json({ success: false, message: "Invalid credentials" });
+  res.json({ success: true, user });
 });
 
-// Спин
-app.post("/spin", (req, res) => {
-    const { username } = req.body;
-    if (!users[username]) return res.json({ error: "User not found" });
-    if (users[username].balance < 10) return res.json({ error: "Not enough coins" });
+// Turbo Mines: пример API
+app.post("/play/turbomines", (req, res) => {
+  const { userId, cells, mines, bet } = req.body;
+  const user = users.find(u => u.id === userId);
+  if (!user) return res.json({ success: false, message: "User not found" });
 
-    users[username].balance -= 10;
-    const symbols = ["??","??","?","7??"];
-    const s1 = symbols[Math.floor(Math.random()*4)];
-    const s2 = symbols[Math.floor(Math.random()*4)];
-    const s3 = symbols[Math.floor(Math.random()*4)];
-    let win = 0;
-    if (s1===s2 && s2===s3) {
-        win = 50;
-        users[username].balance += win;
-    }
+  // Генерация мин
+  let mineIndexes = [];
+  while (mineIndexes.length < mines) {
+    const r = Math.floor(Math.random() * cells);
+    if (!mineIndexes.includes(r)) mineIndexes.push(r);
+  }
 
-    res.json({ result:[s1,s2,s3], win, balance: users[username].balance });
+  // Вернём поле и выигрыш (для примера)
+  res.json({ success: true, mineIndexes, win: bet * (cells - mines) / cells });
 });
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log("Server running on port " + PORT));
-app.use(express.static("public"));
+// Админ: поиск пользователя по ID
+app.get("/admin/user/:id", (req, res) => {
+  const user = users.find(u => u.id === req.params.id);
+  if (!user) return res.json({ success: false, message: "User not found" });
+  res.json({ success: true, user });
+});
+
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+// Получить всех пользователей (для поиска по username/email)
+app.get("/admin/users", (req,res)=>{
+  res.json({success:true, users});
+});
+
+// Обновление баланса
+app.post("/admin/update-balance", (req,res)=>{
+  const {id, change} = req.body;
+  const user = users.find(u=>u.id===id);
+  if(!user) return res.json({success:false, message:"User not found"});
+  user.balance += change;
+  saveUsers();
+  res.json({success:true, user});
+});
